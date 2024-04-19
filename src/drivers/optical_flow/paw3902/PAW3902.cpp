@@ -408,6 +408,21 @@ void PAW3902::RunImpl()
 					bool publish = false;
 
 					if (motion_reported) {
+						// Remove 1 to the non-zero raw samples to compensate for the sensor rounding up the values.
+						if (delta_x_raw > 0) {
+							delta_x_raw -= 1;
+
+						} else if (delta_x_raw < 0) {
+							delta_x_raw += 1;
+						}
+
+						if (delta_y_raw > 0) {
+							delta_y_raw -= 1;
+
+						} else if (delta_y_raw < 0) {
+							delta_y_raw += 1;
+						}
+
 						// rotate measurements in yaw from sensor frame to body frame
 						const matrix::Vector3f pixel_flow_rotated = _rotation * matrix::Vector3f{(float)delta_x_raw, (float)delta_y_raw, 0.f};
 
