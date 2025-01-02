@@ -47,6 +47,8 @@ px4_add_romfs_files(
 
 	2507_cloudship
 
+	2700_eclipson_model_x
+
 	# [3000, 3999] Flying wing"
 	3000_generic_wing
 

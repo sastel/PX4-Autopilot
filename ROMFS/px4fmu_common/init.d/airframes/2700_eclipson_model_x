@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# @name Eclipson Model X
+#
+# @type Plane A-Tail
+# @class Plane
+#
+# @output Motor1 throttle
+# @output Servo1 aileron right
+# @output Servo2 aileron left
+# @output Servo3 A-tail right
+# @output Servo4 A-tail left
+# @output Servo5 flaps right
+# @output Servo6 flaps left
+#
+# @maintainer Sean Stel <stel.sean@gmail.com>
+#
+# @board bitcraze_crazyflie exclude
+#
+# TODO:
+# - [ ] Script ms4525do start -X so airspeed sensor autostarts (why isn't this in there already?)
+# - [X] Figure out why servos are not responding in the actuator test menu - poor radio setup overrode it
+# - [X] Check if I plugged the servos into the right port on the uC (IO not FMU right?)
+# - [X] Set the servo disable locations on the FMU (actuator pane in QGroundControl)
+# - [ ] Set the servo disable locations in here.
+# - [ ] Set up the RC radio so that it works properly in manual mode.
+# - [ ] Set up rules for loss of communications - RTH, land, etc
+#   - Can this be done in parameters?
+# - [ ] Configure logging via SD card with stall speed related numbers:
+#   - https://docs.px4.io/v1.14/en/dev_log/logging.html#sd-card-configuration
+#   - AoA, Airspeed, Flap setting
+# - [ ] How do I get the FMU to set flaps for landing?
+
+. ${R}etc/init.d/rc.fw_defaults
+
+param set-default FW_WING_SPAN 2.0
+param set-default FW_AIRSPD_STALL 7.8
+param set-default FW_AIRSPD_MIN 9
+
+param set-default BAT1_CAPACITY 3300.0
+param set-default BAT1_N_CELLS 4
+param set-default BAT1_V_CHARGED 4.2
+param set-default BAT1_V_EMPTY 3.3
+
+param set-default CA_AIRFRAME 1
+param set-default CA_ROTOR_COUNT 1
+param set-default CA_SV_CS_COUNT 6
+param set-default CA_SV_CS0_TRQ_R -0.5000
+param set-default CA_SV_CS0_TYPE 1 #left aileron
+param set-default CA_SV_CS1_TRQ_R 0.5000
+param set-default CA_SV_CS1_TYPE 2 #right aileron
+param set-default CA_SV_CS2_TRQ_P 0.5000
+param set-default CA_SV_CS2_TRQ_Y -0.5000
+param set-default CA_SV_CS2_TYPE 13 #left A-tail
+param set-default CA_SV_CS3_TRQ_P 0.5000
+param set-default CA_SV_CS3_TRQ_Y 0.5000
+param set-default CA_SV_CS3_TYPE 14 #right A-tail
+param set-default CA_SV_CS4_TRQ_Y 1.0000
+param set-default CA_SV_CS4_TYPE 12
+param set-default CA_SV_CS5_TYPE 9 #left flap
+param set-default CA_SV_CS6_TYPE 10 #right flap
+
+param set-default PWM_MAIN_FUNC1 201 # Left Aileron
+param set-default PWM_MAIN_FUNC2 202 # Right Aileron
+param set-default PWM_MAIN_FUNC3 203 # Left A-Tail
+param set-default PWM_MAIN_FUNC4 204 # Right A-Tail
+param set-default PWM_MAIN_FUNC5 101 # Motor 1
+#param set-default PWM_MAIN_FUNC6 205 # Custom
+param set-default PWM_MAIN_FUNC7 206 # Left Flap
+param set-default PWM_MAIN_FUNC8 207 # Right Flap
